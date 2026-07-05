@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: idp-platform-demo
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # IMPORTANTE: Asegúrate de que esta URL es la de TU repositorio de la app
+    repoURL: https://github.com/marcsal/platform-idp-demo.git
+    targetRevision: main
+    path: k8s # Indica a ArgoCD que busque los manifiestos dentro de la carpeta k8s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
