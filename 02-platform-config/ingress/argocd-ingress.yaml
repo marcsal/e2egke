@@ -4,12 +4,12 @@ metadata:
   name: argocd-ingress
   namespace: argocd
   annotations:
-    # Esta es la clave: Le decimos a NGINX que el backend habla en HTTPS
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: nginx
   rules:
-  - http:
+  - host: argocd.34.175.147.63.nip.io  # <-- FALTA ESTA LÍNEA
+    http:
       paths:
       - path: /
         pathType: Prefix

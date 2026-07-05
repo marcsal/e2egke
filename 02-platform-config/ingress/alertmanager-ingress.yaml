@@ -7,7 +7,7 @@ spec:
   ingressClassName: nginx
   rules:
   # Aquí está la magia del DNS dinámico para el laboratorio
-  - host: alertmanager.34.175.20.186.nip.io 
+  - host: alertmanager.34.175.147.63.nip.io 
     http:
       paths:
       - path: /
