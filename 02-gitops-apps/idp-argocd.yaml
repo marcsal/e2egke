@@ -9,7 +9,9 @@ spec:
     # IMPORTANTE: Asegúrate de que esta URL es la de TU repositorio de la app
     repoURL: https://github.com/marcsal/platform-idp-demo.git
     targetRevision: main
-    path: k8s # Indica a ArgoCD que busque los manifiestos dentro de la carpeta k8s
+    path: k8s/00-bootstrap # Indica a ArgoCD que busque los manifiestos dentro de la carpeta k8s/00-bootstrap
+    directory:
+      recurse: true # Permite que ArgoCD busque en subcarpetas dentro de k8s/00-bootstrap
   destination:
     server: https://kubernetes.default.svc
     namespace: default

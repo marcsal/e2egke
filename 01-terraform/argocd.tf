@@ -1,3 +1,9 @@
+# 0. Lectura de la IP estática pre-creada de forma persistente en GCP
+data "google_compute_address" "ip_estatica_ingress" {
+  name   = "ip-estatica-plataforma"
+  region = var.region
+}
+
 # 1. Instalación automatizada del Nginx Ingress Controller mediante Helm
 resource "helm_release" "ingress_nginx" {
   name             = "ingress-nginx"
@@ -12,6 +18,12 @@ resource "helm_release" "ingress_nginx" {
     google_container_cluster.cluster_entrevista,
     google_container_node_pool.nodos_trabajo
   ]
+
+  # MÁGICA: Vinculamos el LoadBalancer a la IP estática recuperada del bloque data
+  set {
+    name  = "controller.service.loadBalancerIP"
+    value = data.google_compute_address.ip_estatica_ingress.address
+  }
 }
 
 # 2. Instalación automatizada de ArgoCD mediante Helm
@@ -51,7 +63,7 @@ resource "null_resource" "argocd_bootstrap" {
       sleep 20
       
       # 3. Aplicamos el manifiesto que activa todo el ecosistema GitOps
-      kubectl apply -f ../03-gitops-apps/idp-argocd.yaml
+      kubectl apply -f ../02-gitops-apps/idp-argocd.yaml
     EOT
   }
 }

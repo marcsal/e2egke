@@ -6,4 +6,4 @@ crash.log
 *.tfvars
 .terraform.lock.hcl
 # Ignorar el repositorio de la aplicación (tiene su propio ciclo de vida)
-04-apps/platform-idp-demo/
+03-apps/platform-idp-demo/
