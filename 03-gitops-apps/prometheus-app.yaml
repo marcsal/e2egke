@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: observabilidad-stack
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # En lugar de un repo Git, le damos la URL oficial del repositorio Helm
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 59.1.0 # ¡Buena práctica! Fijar la versión para evitar actualizaciones sorpresa
+    chart: kube-prometheus-stack
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true # Crea el namespace 'monitoring' automáticamente
+      - ServerSideApply=true # Necesario porque los CRDs de Prometheus son inmensos

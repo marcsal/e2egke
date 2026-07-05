@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: monitoring
+spec:
+  ingressClassName: nginx
+  rules:
+  # Aquí está la magia del DNS dinámico para el laboratorio
+  - host: grafana.34.175.20.186.nip.io 
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: observabilidad-stack-grafana
+            port:
+              number: 80
